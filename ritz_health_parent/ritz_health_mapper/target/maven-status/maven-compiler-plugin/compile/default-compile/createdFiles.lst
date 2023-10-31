@@ -1,0 +1,10 @@
+com\ritz\health\mapper\ITcmConstitutionIdentificationMapper.class
+com\ritz\health\mapper\ICheckGroupCheckItemMapper.class
+com\ritz\health\mapper\ISetmealCheckGroupMapper.class
+com\ritz\health\mapper\ICheckItemMapper.class
+com\ritz\health\mapper\ISetmealMapper.class
+com\ritz\health\mapper\IMenuMapper.class
+com\ritz\health\mapper\ISysLogMapper.class
+com\ritz\health\mapper\IMemberMapper.class
+com\ritz\health\mapper\ICheckGroupMapper.class
+com\ritz\health\mapper\IOrderSettingMapper.class

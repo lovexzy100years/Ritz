@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ISetmealCheckGroupMapper">
+
+    <insert id="addSetmealIdAndCheckGroupId" parameterType="java.util.HashMap">
+        insert  into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values(#{setmealId},#{checkGroupId})
+    </insert>
+    <delete id="deleteCheckGroupIdBySetmealId" parameterType="java.lang.Integer">
+        delete from t_setmeal_checkgroup where setmeal_id = #{setmealId}
+    </delete>
+    <select id="findCheckGroupIdBySetmealId" parameterType="java.lang.Integer" resultType="com.ritz.health.vo.SetmealCheckGroupVO">
+        select setmeal_id as setmealId,checkgroup_id as checkGroupId from t_setmeal_checkgroup where setmeal_id = #{setmealId}
+    </select>
+</mapper>

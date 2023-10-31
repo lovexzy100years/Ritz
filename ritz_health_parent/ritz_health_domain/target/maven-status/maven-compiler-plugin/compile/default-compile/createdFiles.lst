@@ -1,0 +1,12 @@
+com\ritz\health\pojo\CheckItem.class
+com\ritz\health\pojo\Menu.class
+com\ritz\health\pojo\Permission.class
+com\ritz\health\pojo\User.class
+com\ritz\health\pojo\Setmeal.class
+com\ritz\health\pojo\Role.class
+com\ritz\health\pojo\CheckGroup.class
+com\ritz\health\pojo\Member.class
+com\ritz\health\pojo\OrderSetting.class
+com\ritz\health\pojo\SysLog.class
+com\ritz\health\pojo\TcmConstitutionIdentification.class
+com\ritz\health\pojo\Order.class

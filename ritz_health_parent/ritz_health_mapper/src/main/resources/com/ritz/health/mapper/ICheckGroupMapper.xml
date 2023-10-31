@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ICheckGroupMapper">
+
+
+    <select id="findCheckGroupListByCondition" parameterType="java.lang.String" resultType="com.ritz.health.pojo.CheckGroup">
+        select * from t_checkGroup
+        <where>
+            <if test="queryString != null and queryString.length > 0">
+                <bind name="queryString" value="queryString"/>
+                and code like #{queryString}
+            </if>
+
+            <if test="queryString != null and queryString.length > 0">
+                <bind name="queryString" value="queryString"/>
+                or name like #{queryString}
+            </if>
+            <if test="queryString != null and queryString.length > 0">
+                <bind name="queryString" value="queryString"/>
+                or helpCode like #{queryString}
+            </if>
+
+        </where>
+
+    </select>
+
+    <insert id="addCheckGroup" parameterType="com.ritz.health.pojo.CheckGroup">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_CheckGroup(code,name,sex,helpCode,remark,attention)
+        values
+        (#{code},#{name},#{sex},#{helpCode},#{remark},#{attention})
+    </insert>
+
+    <delete id="deleteCheckGroupById" parameterType="java.lang.Integer">
+        delete from t_checkGroup where id = #{checkGroupId}
+    </delete>
+
+
+    <select id="findCheckGroupById" parameterType="java.lang.Integer" resultType="com.ritz.health.pojo.CheckGroup">
+        select * from t_checkgroup where id = #{checkGroupId}
+    </select>
+
+    <update id="editCheckGroup" parameterType="com.ritz.health.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findCheckGroupList" resultType="com.ritz.health.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
+</mapper>

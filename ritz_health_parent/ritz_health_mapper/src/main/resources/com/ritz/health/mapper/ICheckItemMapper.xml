@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ICheckItemMapper">
+
+
+<select id="findCheckItemListByCondition" parameterType="java.lang.String" resultType="com.ritz.health.pojo.CheckItem">
+    select * from (
+        select * from t_checkItem
+        <where>
+            <if test="queryString != null and queryString.length > 0">
+                <bind name="queryString" value="queryString"/>
+                and code like #{queryString}
+            </if>
+
+            <if test="queryString != null and queryString.length > 0">
+                <bind name="queryString" value="queryString"/>
+                or name like #{queryString}
+            </if>
+        </where>
+    ) as tc where tc.status = 1
+</select>
+
+
+    <select id="selectCheckItemList" resultType="com.ritz.health.pojo.CheckItem">
+        select * from t_checkItem where status = 1
+    </select>
+
+    <select id="queryCheckItemById" parameterType="java.lang.Integer" resultType="com.ritz.health.pojo.CheckItem">
+        select * from t_checkItem where id = #{id} and status = 1
+    </select>
+
+    <insert id="insertCheckItem" parameterType="com.ritz.health.pojo.CheckItem">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_checkitem(code,name,sex,age,price,type,remark,attention,status)
+        values
+        (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention},#{status})
+    </insert>
+
+    <update id="editCheckItem" parameterType="com.ritz.health.pojo.CheckItem">
+        update t_checkitem
+        <set>
+            <if test="name != null">
+             name = #{name},
+            </if>
+            <if test="sex != null">
+             sex = #{sex},
+            </if>
+            <if test="code != null">
+             code = #{code},
+            </if>
+            <if test="age != null">
+             age = #{age},
+            </if>
+            <if test="price != null">
+             price = #{price},
+            </if>
+            <if test="type != null">
+             type = #{type},
+            </if>
+            <if test="attention != null">
+             attention = #{attention},
+            </if>
+            <if test="remark != null">
+             remark = #{remark},
+            </if>
+        </set>
+        where id = #{id} and status = 1
+    </update>
+
+    <update id="updateStatusById" parameterType="java.lang.Integer">
+        update t_checkItem set status = 0 where id = #{id}
+    </update>
+
+</mapper>

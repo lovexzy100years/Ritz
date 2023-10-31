@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.IOrderSettingMapper">
+
+
+    <insert id="insertOrderSetting" parameterType="com.ritz.health.pojo.OrderSetting">
+        insert into t_ordersetting(orderDate,number) values(#{orderDate},#{number})
+    </insert>
+
+    <select id="findOrderSettingByOrderDate" parameterType="java.lang.String" resultType="com.ritz.health.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate = #{orderDateStr}
+    </select>
+
+    <update id="updateOrderSettingByOrderDate" parameterType="java.util.HashMap">
+        update t_ordersetting set number = #{number} where orderDate = #{orderDate}
+    </update>
+
+    <select id="findOrderSettingListByDate" parameterType="java.util.HashMap" resultType="com.ritz.health.pojo.OrderSetting">
+        SELECT * FROM t_ordersetting WHERE orderdate  <![CDATA[ >= ]]>  #{startDate} AND  orderdate <![CDATA[ <= ]]>  #{endDate}
+    </select>
+</mapper>

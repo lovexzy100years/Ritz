@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ISetmealMapper">
+
+
+    <select id="findSetmealListByCondition" parameterType="java.lang.String" resultType="com.ritz.health.pojo.Setmeal">
+        select * from (
+        select * from t_setmeal
+            <where>
+                <if test="queryString != null and queryString.length > 0">
+                    <bind name="queryString" value="queryString"/>
+                    and code like #{queryString}
+                </if>
+
+                <if test="queryString != null and queryString.length > 0">
+                    <bind name="queryString" value="queryString"/>
+                    or name like #{queryString}
+                </if>
+                <if test="queryString != null and queryString.length > 0">
+                    <bind name="queryString" value="queryString"/>
+                    or helpCode like #{queryString}
+                </if>
+            </where>
+        ) as ts where ts.status = 1
+    </select>
+
+    <update id="updateSetmealStatusById" parameterType="java.lang.Integer">
+        update t_setmeal set status = 0 where id = #{setmealId} and status = 1
+    </update>
+
+    <insert id="insertSetmeal" parameterType="com.ritz.health.pojo.Setmeal" >
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal(code,name,sex,age,helpCode,price,remark,attention,img,status)
+        values
+        (#{code},#{name},#{sex},#{age},#{helpCode},#{price},#{remark},#{attention},#{img},#{status})
+    </insert>
+
+    <select id="findSetmealById" parameterType="java.lang.Integer" resultType="com.ritz.health.pojo.Setmeal">
+        select * from t_setmeal where id = #{setmealId}
+    </select>
+
+    <update id="editSetmeal" parameterType="com.ritz.health.pojo.Setmeal">
+        update t_setmeal set remark = #{remark} where id = #{id}
+    </update>
+
+    <select id="findSetmeal" resultType="com.ritz.health.pojo.Setmeal">
+        select * from t_setmeal where status = 1
+    </select>
+</mapper>

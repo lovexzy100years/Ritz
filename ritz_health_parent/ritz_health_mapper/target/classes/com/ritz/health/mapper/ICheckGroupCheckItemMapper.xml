@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ICheckGroupCheckItemMapper">
+
+    <!--<insert id="addCheckItemIdAndCheckGroupId" parameterType="com.ritz.health.vo.CheckGroupCheckItemVO">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values(#{checkGroupId},#{checkItemId})
+    </insert>-->
+
+    <insert id="addCheckItemIdAndCheckGroupId" parameterType="java.util.HashMap">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values(#{checkGroup_Id},#{checkItem_Id})
+    </insert>
+
+    <delete id="deleteCheckGroupCheckItemByCheckGroupId" parameterType="java.lang.Integer">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{checkGroupId}
+    </delete>
+
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="java.lang.Integer" resultType="com.ritz.health.vo.CheckGroupCheckItemVO">
+        select checkgroup_id as checkGroupId,checkitem_id as checkItemId from t_checkgroup_checkItem where checkGroup_id = #{checkGroupId}
+    </select>
+</mapper>

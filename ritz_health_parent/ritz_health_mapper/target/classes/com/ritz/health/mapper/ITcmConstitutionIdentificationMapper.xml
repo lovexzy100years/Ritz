@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ritz.health.mapper.ITcmConstitutionIdentificationMapper">
+    <select id="findTcmConstitutionIdentificationListByCondition" resultType="com.ritz.health.pojo.TcmConstitutionIdentification">
+        select * from t_tcm_constitution_identification
+    </select>
+</mapper>

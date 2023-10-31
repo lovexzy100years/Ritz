@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+    <!--1.开启注解扫描-->
+    <context:component-scan base-package="com.ritz.health.mapper"/>
+    <context:component-scan base-package="com.ritz.health.service"/>
+    <context:component-scan base-package="com.ritz.health.web.task"/>
+    <context:component-scan base-package="com.ritz.health.web.config"/>
+    <context:component-scan base-package="com.ritz.health.web.listener"/>
+    <context:component-scan base-package="com.ritz.health.web.template"/>
+
+    <!-- 设置定时任务 -->
+    <task:annotation-driven/>
+
+    <!--2.配置数据源-->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!-- 配置连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--3.dao的对象由mybatis 但是dao的对象由spring的ioc管理-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="plugins">
+            <array>
+                <bean id="pageInterceptor" class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <!-- 方言 mysql limit  oracle row num-->
+                            <prop key="helperDialect">mysql</prop>
+                            <!--当前页码处于第一页或者最后一页，当你点击了上一页或者下一页 也 不出现页码变为负数或者超出最大最大页码数-->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--4.需要保证spring在进行包扫描时可以扫描到dao-->
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ritz.health.mapper"/>
+
+    </bean>
+
+    <!-- 配置Spring的声明式事务管理 -->
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--开启spring注解事务的支持-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
